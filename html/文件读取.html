@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <input type="file" name="" id="">
+  <script>
+    var input = document.querySelector("input")
+    input.onchange = function () {
+      // for (var key in this) {
+      //   console.log(key)
+      // }
+      // 读取到文件
+      var file = this.files[0]
+      var reader = new FileReader()
+      // 开始读取
+      reader.readAsText(file)
+      // 当事件完成后，才可以获取文件信息内容
+      reader.onload = function () {
+        console.log(reader.result)
+      }
+    }
+  </script>
+</body>
+</html>
