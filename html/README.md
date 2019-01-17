@@ -254,7 +254,7 @@ ctx.beginPath()   开启新的图层
 
 ### 渐变方案
 
-```
+```js
   线性渐变
     var grd=ctx.createLinearGradient(x0,y0,x1,y1);
   	 	x0-->渐变开始的x坐标
@@ -288,22 +288,20 @@ ctx.beginPath()   开启新的图层
 
 ### 填充效果
 
-```
+```js
 ctx.fill();	          设置填充效果
 ctx.fillstyle="值";   设置填充颜色
 ```
 
 ### 非零环绕原则
 
-```
+```js
 非零环绕原则：
 	1. 任意找一点，越简单越好
 	2. 以点为圆心，绘制一条射线，越简单越好（相交的边越少越好）
 	3. 以射线为半径顺时针旋转，相交的边同向记为+1，反方向记为-1，如果相加的区域等于0，则不填充。
 	4. 非零区域填充
 ```
-
-
 
 ### 绘制虚线
 
@@ -343,147 +341,101 @@ ctx.fillstyle="值";   设置填充颜色
 ### 绘制文本
 
 ```
-  ☞ 绘制填充文本
-  	  content.fillText(文本的内容,x,y)
+绘制填充文本
+  content.fillText(文本的内容,x,y)
   
-  ☞ 绘制镂空文本
-  	   content.strokeText();
+绘制镂空文本
+  content.strokeText();
   	   
-  ☞ 设置文字大小：
-  	   content.font="20px 微软雅黑"
-  	   备注： 该属性设置文字大小，必须按照cssfont属性的方式设置
+设置文字大小：
+  content.font="20px 微软雅黑"
+  备注： 该属性设置文字大小，必须按照cssfont属性的方式设置
   	   
-  ☞ 文字水平对齐方式【文字在圆心点位置的对齐方式】
-  		content.textalign="left | right | center"
+文字水平对齐方式【文字在圆心点位置的对齐方式】
+  content.textalign="left | right | center"
   
-  ☞文字垂直对齐方式
-  		 content.textBaseline="top | middle | bottom | alphabetic(默认)"
+文字垂直对齐方式
+  content.textBaseline="top | middle | bottom | alphabetic(默认)"
   
-  ☞文字阴影效果
-  		 ctx.shadowColor="red";  设置文字阴影的颜色
-
-         ctx.ShadowOffsetX=值;   设置文字阴影的水平偏移量
-
-         ctx.shadowOffsetY=值;   设置文字阴影的垂直偏移量
-
-         ctx.shadowBlur=值;      设置文字阴影的模糊度
+文字阴影效果
+  ctx.shadowColor="red";  设置文字阴影的颜色
+  ctx.ShadowOffsetX=值;   设置文字阴影的水平偏移量
+  ctx.shadowOffsetY=值;   设置文字阴影的垂直偏移量
+  ctx.shadowBlur=值;      设置文字阴影的模糊度
 ```
 
 ### 绘制图片
 
-```
-  ☞    
-      //将图片绘制到画布的指定位置
-     content.drawImage(图片对象,x,y);
-
-  ☞ 
-  	 //将图片绘制到指定区域大小的位置  x,y指的是矩形区域的位置，width和height指的是矩形区域的大小
-     content.drawImage(图片对象,x,y,width,height);
-     
-  ☞ 
-  	 //将图片的指定区域绘制到指定矩形区域内
-     content.drawImage(图片对象,sx,sy,swidth,sheight,dx,dy,dwidth,dheight);
-     
-     sx,sy 指的是要从图片哪块区域开始绘制，swidth，sheight 是值 截取图片区域的大小
-     dx,dy 是指矩形区域的位置，dwidth,dheight是值矩形区域的大小
-     
-
-   ☞ 
-   	  解决图片绘制到某一个区域的按原比例缩放绘制：
-        绘制宽：绘制高==原始宽：原始高
+```js
+//将图片绘制到画布的指定位置
+content.drawImage(图片对象,x,y);
+//将图片绘制到指定区域大小的位置  x,y指的是矩形区域的位置，width和height指的是矩形区域的大小
+content.drawImage(图片对象,x,y,width,height);
+//将图片的指定区域绘制到指定矩形区域内
+content.drawImage(图片对象,sx,sy,swidth,sheight,dx,dy,dwidth,dheight);
+  sx,sy 指的是要从图片哪块区域开始绘制，swidth，sheight 是值 截取图片区域的大小
+  dx,dy 是指矩形区域的位置，dwidth,dheight是值矩形区域的大小
+解决图片绘制到某一个区域的按原比例缩放绘制：
+  绘制宽：绘制高==原始宽：原始高
 ```
 
 ### 绘制圆弧
 
-```
-   ☞
-   	 content.arc(x,y,radius,startradian,endradian[,direct]);
-   	 
-   	   		x,y    圆心的坐标
-
-             radius 半径
-
-             startradian   开始弧度
-
-             endradian     结束弧度
+```html
+content.arc(x,y,radius,startradian,endradian[,direct]);
+  x,y    圆心的坐标
+  radius 半径
+  startradian   开始弧度
+  endradian     结束弧度
+  direct        方向（默认顺时针 false）   true 代表逆时针
+0度角在哪？
+	以圆心为中心向右为0角 顺时针为正，逆时针为负
         
-             direct        方向（默认顺时针 false）   true 代表逆时针
-             
-   ☞ 0度角在哪？
-		  以圆心为中心向右为0角 顺时针为正，逆时针为负
-             
-   ☞ 备注：
-   	    角度 和 弧度的关系： 角度:弧度= 180:pi
-   	    
-   	     特殊值
-
-           0度 = 0弧度
-
-           30度 = π/6   (180度的六分之一)
-
-           45度 = π/4   
-
-           60度 = π/3
-
-           90度 = π/2
-
-           180度 = π
-
-           360度 = 2π
-           
-           
-    ☞ 绘制圆上任意点：	
-    	公式：
-           x=ox+r*cos( 弧度 )
-
-           y=oy+r*sin( 弧度 )
-
-
-         ox: 圆心的横坐标
-
-         oy: 圆心的纵坐标
-
-         r： 圆的半径
+备注：
+  角度 和 弧度的关系： 角度:弧度= 180:pi
+  特殊值
+    0度 = 0弧度
+    30度 = π/6   (180度的六分之一)
+    45度 = π/4   
+    60度 = π/3
+    90度 = π/2
+    180度 = π
+    360度 = 2π
+绘制圆上任意点：	
+  公式：
+    x=ox+r*cos( 弧度 )
+    y=oy+r*sin( 弧度 )
+    ox: 圆心的横坐标
+    oy: 圆心的纵坐标
+    r： 圆的半径
 ```
 
 ### 平移【坐标系圆点的平移】
 
 ```
 ctx.translate(x,y);
+  特点：
+    通过该方法可以将原点的位置进行重新设置。
 
-   特点：
-      通过该方法可以将原点的位置进行重新设置。
-
-   注意：
-       1. translate(x,y) 中不能设置一个值
-
-       2. 与moveTo(x,y) 的区别：
-
-            moveTo(x,y) 指的是将画笔的落笔点的位置改变，而坐标系中的原点位置并没有发生改变
-
-            translate(x,y) 是将坐标系中的原点位置发生改变
+  注意：
+    1. translate(x,y) 中不能设置一个值
+    2. 与moveTo(x,y) 的区别：
+        moveTo(x,y) 指的是将画笔的落笔点的位置改变，而坐标系中的原点位置并没有发生改变
+        translate(x,y) 是将坐标系中的原点位置发生改变
 ```
 
 ### 旋转【坐标系旋转】
 
-```
+```js
 ctx.rotate(弧度)
 ```
 
 ### 伸缩
 
 ```
- ctx.scale(x,y)
-
-   备注：
-       沿着x轴和y轴缩放
-
-       x,y 为倍数  例如： 0.5  1
+ctx.scale(x,y)
+  备注：
+    沿着x轴和y轴缩放
+    x,y 为倍数  例如： 0.5  1
 ```
-
-## 作业
-
-1. 制作一个在线播放器（视频，音乐）
-2. 练习Canvas中的api
-3. H5中的API熟练一下
 

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		.one {
+			width: 500px;
+			height: 500px;
+			border: 1px solid red;
+			margin: 100px auto;
+			/*透视 600-1000*/
+			perspective: 1000px;
+		}
+		.box {
+			width: 100px;
+			height: 100px;
+			background-color: red;
+			margin: 200px;
+		}
+		.one:hover .box {
+			transform: translateZ(200px);
+		}
+	</style>
+</head>
+<body>
+	<div class="one">
+		<div class="box"></div>
+	</div>
+</body>
+</html>
