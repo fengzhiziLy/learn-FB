@@ -410,9 +410,20 @@ var q1 = f1();
 q1 = null; // q1 = undefined
 ```
 
+### 对象的属性查找规则
+
+// -->1、首先查看本身有没有length属性
+// -->2、如果本身没有该属性，那么去它的原型对象中查找
+// -->3、如果原型对象中没有，那么就去原型对象的原型对象中查找，最终一直找到根对象（Object.prototype）
+// -->4、最终都没有找到的话，我们认为该对象并没有该属性，如果获取该属性的值：undefined
+
 ### 函数的4种调用方式
 
-+ 1. 函数式调用
+**`ES6之前`函数内部的this是由该函数的调用方式决定的**
+
+**函数内部的this与大小写、书写位置无关**
+
++ 1. 函数调用
 
 ```js
 var age = 18;
@@ -422,7 +433,7 @@ var p = {
     console.log(this.age);
   }
 }
-var s1 = p.say();
+var s1 = p.say;
 s1()
 ```
 
@@ -462,4 +473,25 @@ function f1 () {
 f1.call([1, 3, 5])
 f1.apply(this)
 f1.call(5)
+```
+
+##### call方法的第一个参数
+
++ 如果是一个对象类型，那么函数内部的this指向该对象
++ 如果是undefined/null，那么函数内部的this指向window
++ 如果是数字---> this: 对应的Number构造函数的实例
++ 如果是字符串--> this: 对应的String构造函数的实例
++ 如果是布尔值--> this: 对应的Boolean构造函数的实例
+
+##### call和apply的异同
+
+- call和apply都可以改变函数内部this的指向
+- 传参的形式不同
+
+```js
+function toString (a, b, c) {
+  console.log(a + " " + b + " " + c);
+}
+toString.call(null, 1, 3, 5);
+toString.apply(null, [1, 3, 5]);
 ```

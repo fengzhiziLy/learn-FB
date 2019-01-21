@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+
+  </body>
+  <script type="text/javascript">
+    function Person () {
+      this.age = 20;
+    }
+    Person.prototype.run = function () {
+      console.log(this.age);
+    }
+    var p1 = new Person();
+    p1.run();
+
+    var p2 = {
+      height: 180,
+      tranel: function () {
+        console.log(this.height);
+      }
+    }
+    p2.tranel();
+
+    var clear = function () {
+      console.log(this.length);
+    }
+    var length = 50;
+    var tom = {
+      c: clear,
+      length: 100
+    }
+    tom.c();
+    // clear函数被当成tom.c()这种方法的形式来进行调用
+    // 所以函数内部的this指向调用该方法的对象: tom
+    var tony = {
+      d: clear,
+      length: 30
+    }
+    tony.d(); // 30
+  </script>
+</html>

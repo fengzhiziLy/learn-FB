@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+
+  </body>
+  <script type="text/javascript">
+    function fn (name) {
+      this.name = name;
+    }
+    var _n = new fn("fengzi"); // _n有个name属性，值为fengzi
+
+    function jQuery () {
+      // return new jQuery.prototype.init();
+      var _init = jQuery.prototype.init;
+      // _init就是一个构造函数
+      return new _init();
+    }
+    jQuery.prototype = {
+      constructor: jQuery,
+      length: 100,
+      // this可以访问到实例本身的属性，也可以访问到init.prototype中的属性
+      // 这里的init.prototype并不是jQuery.prototype
+      init: function () {
+        console.log(this.length);  // undefined
+      }
+    }
+
+    // 修改init函数的默认原型
+    jQuery.prototype.init.prototype = jQuery.prototype;
+    jQuery()
+  </script>
+</html>
