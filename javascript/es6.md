@@ -135,12 +135,12 @@ var q = (name, age) => {}
 + `typeof`
   - typeof只能判断：数字、字符串、布尔值、undefined、函数
 + `Object.prototype.toString.call()`
-  - 5              '[object Number]'    
-  - "abc"          '[object String]'    
-  - true           '[object Boolean]'   
-  - null           '[object Null]'      
-  - undefined      '[object Undefined]' 
-  - [1, 3, 5]      '[object Array]'     
-  - function(){}   '[object Function]'  
-  - new Date()     '[object Date]'      
-  - /abc/          '[object RegExp]'    
+  - 5--------------'[object Number]'    
+  - "abc"----------'[object String]'    
+  - true-----------'[object Boolean]'   
+  - null-----------'[object Null]'      
+  - undefined------'[object Undefined]'
+  - [1, 3, 5]------'[object Array]'     
+  - function(){}---'[object Function]'  
+  - new Date()-----'[object Date]'      
+  - /abc/----------'[object RegExp]'    
