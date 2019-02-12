@@ -130,6 +130,42 @@ var q = function (name, age) {}
 var q = (name, age) => {}
 ```
 
++ 箭头函数和普通函数有哪些不同
+
+  1. 函数体内的`this`对象，就是定义时所在的对象，而不是使用时所在的对象。
+
+  ```js
+    var p = {
+      age: 18,
+      run: () => {
+        // 匿名函数不具有独立的作用域
+        setTimeout(() => {
+          console.log(this);    // this-->window
+        }, 1000)
+      },
+      say: function () {
+        setTimeout(() => {
+          console.log(this);    // this-->p
+        }, 1000)
+      },
+      eat() {
+        console.log(this);      // this-->p
+        setTimeout(() => {
+          console.log(this);    // this-->p
+        }, 1000)
+      }
+    }
+    p.run()
+    p.say()
+    p.eat()
+  ```
+
+  2. 不可以当作构造函数，也就是说，不可以使用`new`命令，否则会抛出一个错误。
+
+  3. 不可以使用`arguments`对象，该对象在函数体内不存在。如果要用，可以用`rest`参数代替。
+
+  4. (不常用)不可以使用`yield`命令，因此箭头函数不能用作`Generator`函数。 generator函数现在经常用`async`替代
+
 ### 判断数据类型
 
 + `typeof`
@@ -144,3 +180,34 @@ var q = (name, age) => {}
   - function(){}---'[object Function]'  
   - new Date()-----'[object Date]'      
   - /abc/----------'[object RegExp]'    
+
+### 对象的扩展
+
+> `Object.assign()`就是进行对象的浅拷贝
+
+```js
+var source = { age: 18, className: '3年2班' }
+var newObj = Object.assign({}, source)
+console.log(newObj)
+newObj == source // false
+var newObj2 = {}
+Object.assign(newObj2, source)
+```
+
+> 对象扩展运算符
+
+```js
+var car = { brand: "BMW", price: "368000", length: "3米" }
+// 克隆一个与car完全一样的对象
+var car2 = { ...car }
+console.log(car2);
+console.log(car == car2);  // false
+var car3 = { ...car, length: "4米" }
+console.log(car3);
+var car4 = { ...car, type: "SUV" }
+console.log(car4);
+
+var s1 = [1, 3, 5, 7, 8];
+var s2 = [ ...s1 ];
+console.log(s2);
+```

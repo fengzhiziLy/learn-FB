@@ -430,11 +430,11 @@ var age = 18;
 var p = {
   age: 15,
   say: function () {
-    console.log(this.age);
+    console.log(this.age);    // window.age
   }
 }
 var s1 = p.say;
-s1()
+s1()      // 18
 ```
 
 + 2. 方法调用
@@ -444,10 +444,10 @@ var age = 18;
 var p = {
   age: 15,
   say: function () {
-    console.log(this.age);
+    console.log(this.age); // this: p  15
   }
 }
-p.say();
+p.say();  // 方法调用
 ```
 
 + 3. new调用(构造函数)
@@ -457,10 +457,13 @@ var age = 18;
 var p = {
   age: 15,
   say: function () {
-    console.log(this.age);
+    console.log(this.age); // this: say构造函数的实例，而实例中并没有age属性    undefined
   }
 }
 new p.say();
+// 相当于
+var s1 = p.say()
+new s1()
 ```
 
 + 4. 上下文方式(call、apply、bind)
@@ -470,9 +473,9 @@ var length = 20;
 function f1 () {
   console.log(this.length)
 }
-f1.call([1, 3, 5])
-f1.apply(this)
-f1.call(5)
+f1.call([1, 3, 5])    // 3
+f1.apply(this)        // window.length  21
+f1.call(5)            // undefined
 ```
 
 ##### call方法的第一个参数
@@ -494,4 +497,29 @@ function toString (a, b, c) {
 }
 toString.call(null, 1, 3, 5);
 toString.apply(null, [1, 3, 5]);
+```
+
+#### bind方法的实现
+
+```js
+// bind方法放在函数的原型中 fn.__proto__ === fn的构造函数.prototype
+// fn的构造函数Function
+Function.prototype._bind = function (target) {
+  // 这里的this就是fn
+  // target表示新函数的内部的this的值
+  // 利用闭包创建一个内部函数，返回所谓的新函数
+  return () => {
+    // 执行fn里面的逻辑
+    this.call(target)
+  }
+  // 等价于
+  // var _that = this;
+  // return function () {
+  //   _that.call(target)
+  // }
+}
+function fn () {
+  console.log(this)
+}
+var _fn = fn._bind({ age: 18 })
 ```
