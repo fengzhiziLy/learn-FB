@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div>aaa</div>
+  <div>bbb</div>
+  <div>ccc</div>
+  <span class="header">123</span>
+  <input type="text" id="inputId">
+</body>
+<script>
+(function (window) {
+  function jQuery (selector) {
+
+    const elements = document.getElementsByTagName(selector)
+    var _init = jQuery.fn.init
+    return new _init(selector)
+  }
+  
+  jQuery.fn = jQuery.prototype = {
+    constructor: jQuery,
+    init: function(selector) {
+      const elements = document.querySelectorAll(selector)
+      for (let i = 0; i < elements.length; i++) {
+        // ele表示每一个DOM元素
+        let ele = elements[i]
+        this[i] = ele
+      }
+      this.length = elements.length
+    },
+    css(name, value) {
+      for (let i = 0; i < this.length; i++) {
+        let element = this[i]
+        element.style[name] = value
+      }
+    }
+  }
+  jQuery.fn.init.prototype = jQuery.fn
+
+  jQuery.fn.extend = jQuery.extend = function (...args) {
+    // 两个extend方法区别在于
+    // 接受数据的对象不同： $.extend: 第一个参数  $.fn.extend: this
+    // 提供数据的对象不同： $.extend: 第二个参数及其后面的 $.fn.extend: 所有参数
+    let target, source = []
+    source = [...args]
+    // 判定两种情况
+    if (this === jQuery) {
+      // $.extend
+      target = args[0]
+      source.splice(0, 1)   // 删除第一个元素
+    } else {
+      target = this
+    }
+    source.forEach(function (item, index) {
+      // item: 每一个数据源对象（提供数据的对象）
+      // 取出对象中的每一个属性
+      Object.keys(item).forEach(function (key) {
+        target[key] = item[key]
+      })
+    })
+    return target
+  }
+
+  window.$ = window.jQuery = jQuery;
+})(window)
+
+var p = {}
+
+$.extend(p, {c:30}, {a:10}, {b:20})
+$.fn.extend({
+  dataTimePicker () {
+
+  },
+  getDate() {
+    
+  }
+})
+// $("div").css("color", "red")
+// $(".header").css("backgroundColor", "blue")
+// $("#inputId").css("backgroundColor", "blue")
+
+// // $.extend
+// var obj = { name: 'xxx', age: 18 }
+// var obj2 = {}
+// var obj3 = { gender: "男" }
+// $.extend(obj2, obj, obj3)
+</script>
+</html>
