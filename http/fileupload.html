@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <!-- 文件上传客户端的处理
+      1. 文件上传必须表单提交
+      2. 必须是post方式提交
+      3. 必须表单属性 当上传文件是需要设置 enctype="multipart/form-data"
+      4. 必须有一个input  type=file 的属性
+  -->
+  <form action="./fileupload.php" method="POST" enctype="multipart/form-data">
+    照片：<input type="file" name="lifephoto" id=""><br>
+    <input type="submit" value="上传">
+  </form>
+</body>
+</html>
