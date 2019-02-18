@@ -106,8 +106,56 @@ SELECT * FROM employee  where columnName= value;
 
 什么是Cookies（“小甜饼”）呢？简单来说，Cookies就是服务器暂时存放在你的电脑里的资料（.txt格式的文本文件），好让服务器用来辨认你的计算机。当你在浏览网站的时候，Web服务器会先送一小小资料放在你的计算机上，Cookies 会把你在网站上所打的文字或是一些选择都记录下来。当下次你再访问同一个网站，Web服务器会先看看有没有它上次留下的Cookies资料，有的话，就会依据Cookie里的内容来判断使用者，送出特定的网页内容给你。 
 
+![cookie](img/cookie.png)
+
 服务端：怎么发送cookie (setcookie() 函数用于设置 cookie );
 
 ```js
 setcookie("user", "Alex Porter", time()+3600); // 服务端向客户端设置cookie
 ```
+
+客户端：怎么获取cookie
+
+```js
+var cookies=document.cookie;
+```
+
+### cookie生命周期
+
+> 给服务器发送请求，服务器发送cookie，客户端得到cookie之后保存多久，怎么保存
+> 
+#### 三种类型的cookie
+
+##### 内存cookie
+
+> 服务器给客户端发送一个cookie，这个cookie保存在客户端浏览器的内存当中，当关闭浏览器，cookie就会消失
+
+```js
+setcookie("user", "zhuwu");  //如果不设置时间，默认就是内存cookie ，当浏览器关闭，客户端会把cookie 清空，整个周期在浏览器的内存当中。
+```
+
+##### 硬盘cookie
+
+> 服务器给客户端发送一个cookie，这个cookie保存在用户的硬盘上面，当关闭浏览器，重启电脑，cookie还在
+
+```js
+//设置当前cookie 的时间为一天。
+setcookie("user", "fengzi", time() + 3600 * 24);
+```
+
+##### 追杀cookie
+
+```js
+//把cookie 的value 设置为空，失效时间改成-1 这样即是追杀cookie，把客户端成cookie 清楚。
+setcookie("user", "", -1);
+```
+
+### 具体作用:
+
+`http`协议是基于请求响应的协议，请求-->响应，连接断开。没有办法记录客户端的状态。也就没有办法对用户的行为进行跟踪，我们可以根据`cookie`对用户进行状态的跟踪,。
+
+cookie流程：当第一次访问服务器，服务器可以向客户端发送cookie，可以往cookie 当中存入需要的数据。
+
+客户端如果接收到服务器端响应的cookie，会把cookie自动保存起来。当客户端再次请求服务器的时候，
+
+浏览器会自动把客户端cookie 的数据发送到服务器。

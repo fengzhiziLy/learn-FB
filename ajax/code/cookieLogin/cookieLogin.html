@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+	<form action="cookie.php">
+		<input type="text" name="username"><br>
+		<input type="submit" value="登录">
+	</form>
+	<script>
+		window.onload = function () {
+			var cookiename = document.cookie;
+			if (cookiename) {
+				document.querySelector("input[type=text]").value = cookiename.split('=')[1];
+			}
+		}
+	</script>
+</body>
+</html>
