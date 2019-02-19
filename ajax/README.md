@@ -327,11 +327,11 @@ json的数据格式是以键值对的方式进行存储,key=value,key=value
 #### 表示数据
 
 ```json
-{"key": 01, "username": "fengzhizi", "loginName": "fengzi", "password": "111111"}
+{"key": 01, "username": "fengzhizi", "loginName": "fengzi", "password": "111111"},
 [
 	{"key": 01, "username": "fengzhizi", "loginName": "fengzi", "password": "111111"},
 	{"key": 02, "username": "fengzhz", "loginName": "fengz", "password": "222222"}
-]
+],
 {
 	response: {
 		rows: [
