@@ -333,8 +333,8 @@ json的数据格式是以键值对的方式进行存储,key=value,key=value
 	{"key": 02, "username": "fengzhz", "loginName": "fengz", "password": "222222"}
 ],
 {
-	response: {
-		rows: [
+	"response": {
+		"rows": [
 			{"key": 01, "username": "fengzhizi", "loginName": "fengzi", "password": "111111"},
 			{"key": 02, "username": "fengzhz", "loginName": "fengz", "password": "222222"}
 		]
