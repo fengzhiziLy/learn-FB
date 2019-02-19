@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+	<input type="button" name="" value="post交互">
+	<span></span>
+	<script>
+		document.querySelector("input").onclick = function () {
+			var xhr = new XMLHttpRequest();
+      xhr.open("post", "post.php");
+      // post提交需要发送特殊的请求头到服务器
+      // Content-Type:application/x-www-form-urlencoded
+      // 通过客户端XMLHTTPRequest把这个头发送到服务器，服务器才能进行解析
+      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+      xhr.send("username=liyang");
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          var data = xhr.responseText;
+          console.log(data);
+        }
+      }
+		}
+	</script>
+</body>
+</html>

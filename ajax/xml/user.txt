@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<users>
+  <user>
+    <id>1</id>
+    <username>feng</username>
+    <loginName>xiao</loginName>
+    <password>123456</password>
+  </user>
+  <user>
+    <id>2</id>
+    <username>fengzi</username>
+    <loginName>xiaozi</loginName>
+    <password>123456</password>
+  </user>
+</users>

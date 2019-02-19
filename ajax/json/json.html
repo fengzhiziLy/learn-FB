@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <input type="button" value="查询">
+  <table>
+    <tr>
+      <td>书名</td>
+      <td>作者</td>
+      <td>价格</td>
+      <td>出版社</td>
+      <td>操作</td>
+    </tr>
+    <tbody id="booksId">
+
+    </tbody>
+  </table>
+  <script>
+    document.querySelector("input").onclick = function () {
+      var xhr = new XMLHttpRequest();
+      xhr.open("get", "./json.php");
+      xhr.send(null);
+      xhr.onreadystatechange = function () {
+				if (xhr.readyState == 4 && xhr.status == 200) {
+          // 接受到json格式的数据 responseText
+          var data = xhr.responseText;  // 字符串
+          // 解析json格式的数据
+          // 把json格式的字符串转换成JavaScript对象，以JavaScript的方式去解析
+          // 两种方式：eval() JSON.parse()
+          // var obj = eval("(" + data + ")");
+          var obj = JSON.parse(data);
+          var trs = "";
+          for (var i = 0; i < obj.length; i++) {
+            trs += "<tr>";
+            trs += "<td>" + obj[i].bookName + "</td>";
+            trs += "<td>" + obj[i].author + "</td>";
+            trs += "<td>" + obj[i].price + "</td>";
+            trs += "<td>" + obj[i].cbs + "</td>";
+            trs += "<td><input type='button' value='" + obj[i].operation + "' ></td>";
+            trs += "</tr>"
+          }
+          document.querySelector("#booksId").innerHTML = trs;
+				}
+			}
+    }
+  </script>
+</body>
+</html>

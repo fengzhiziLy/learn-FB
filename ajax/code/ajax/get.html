@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+	<input type="button" name="" value="ajax异步">
+	<span></span>
+	<script>
+		document.querySelector("input").onclick = function () {
+			// XMLHttpRequest分为四步
+      // 1. 创建对象
+      var xhr = new XMLHttpRequest()
+      // 2. 打开连接
+      xhr.open("get", "login.php?username=fengzhizi")
+      // 3. 发送数据
+      xhr.send(null)
+      // 4. 接收数据 只能通过异步的形式也就是回调函数的方式
+      xhr.onreadystatechange = function () {
+      	// 服务器数据响应成功会调用
+      	// console.log('服务器响应成功'); // 打印了三次
+      	// 因为在和服务器交互，服务器会进行处理
+      	// 在处理的过程中会不断的发一些状态 0 1 2 3 4 每个状态代表的是不同的含义
+      	// 状态通过xhr对象获取
+      	// 如果状态等于到4，代表响应完成
+      	// console.log(xhr.readyState);
+      	if (xhr.readyState == 4) {
+      		// console.log("响应完成"); 如果响应是200，才代表响应成功
+      		// 所以要获取到服务器端状态码
+      		if (xhr.status == 200) {
+      			// 响应是完成的，响应是成功的
+      			// 接收服务器端响应的数据
+      			var data = xhr.responseText;
+      			document.querySelector("span").innerHTML = data;
+      		}
+      	}
+      }
+		}
+	</script>
+</body>
+</html>
