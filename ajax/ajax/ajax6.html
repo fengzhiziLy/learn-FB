@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>方法用对象包装升级版</title>
+</head>
+<body>
+  <input type="button" value="发送请求">
+</body>
+<script>
+  
+  var $ = {
+    ajax: function (options) {
+      var xhr = new XMLHttpRequest();
+      if (options.type.toLocaleLowerCase() === 'get') {
+        options.url = options.url + "?" + options.data;
+        options.data = null;
+      }
+      xhr.open(options.type, options.url);
+      if (options.type.toLocaleLowerCase() === 'post') {
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      }
+      if (options.beforeSend) {
+        var flag = options.beforeSend();
+        if (!flag) {
+          return; 
+        }
+      }
+      xhr.send(options.data);
+      // 接收数据
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+          if (xhr.status == 200) {
+            var responseData = xhr.responseText;
+            // options.success(responseData)
+            // if (options.success) {
+            //   options.success(responseData)
+            // }
+            options.success && options.success(responseData);
+          } else {
+            // 请求出错的时候调用
+            options.error && options.error();
+          }
+          // 调用回调函数
+          options.complete && options.complete();
+        }
+      }
+    }
+  }
+  $.ajax({
+    url: "ajax.php",
+    type: "POST",
+    data: "username=fengzhizi&&name=xiaobai",
+    // 设置一个过滤器,这是一个回调函数，请求发送之前调用
+    beforeSend: function () {
+      console.log('请求发送之前调用');
+      // 可以在这里对发送到服务器的数据进行校验，比如正则验证
+      // 如果验证不通过就不发送请求了
+      return true;
+    },
+    // 这是一个回调函数，数据响应成功的时候调用
+    success: function (info) {
+      console.log(info);
+      console.log('数据响应成功调用');
+    },
+    complete: function () {
+      console.log('请求完成的时候调用');
+    },
+    error: function () {
+      console.log('请求出错的时候调用');
+    }
+  })
+</script>
+</html>

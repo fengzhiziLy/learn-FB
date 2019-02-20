@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>方法用对象包装升级版</title>
+</head>
+<body>
+  <input type="button" value="发送请求">
+</body>
+<script>
+  
+  var $ = {
+    ajax: function (options) {
+      var xhr = new XMLHttpRequest();
+      if (options.type.toLocaleLowerCase() === 'get') {
+        options.url = options.url + "?" + options.data;
+        options.data = null;
+      }
+      xhr.open(options.type, options.url);
+      if (options.type.toLocaleLowerCase() === 'post') {
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      }
+      xhr.send(options.data);
+      // 接收数据
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+          if (xhr.status == 200) {
+            var responseData = xhr.responseText;
+            // options.success(responseData)
+            // if (options.success) {
+            //   options.success(responseData)
+            // }
+            options.success && options.success(responseData);
+          }
+        }
+      }
+    }
+  }
+  $.ajax({
+    url: "ajax.php",
+    type: "POST",
+    data: "username=fengzhizi&&name=xiaobai",
+    success: function (info) {
+      console.log(info);
+    }
+  })
+</script>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>参数包装在对象里面</title>
+</head>
+<body>
+  <input type="button" value="发送请求">
+</body>
+<script>
+  ajax({
+    url: "ajax.php",
+    type: "post",
+    data: "username=fengzhizi&&name=xiaobai",
+    success: function (info) {
+      console.log(info);
+    }
+  })
+  function ajax (options) {
+    // 底层是封装的XMLHttpRequest
+    // 获取到传递过来的数据options.property
+    var xhr = new XMLHttpRequest();
+    if (options.type === 'get') {
+      options.url = options.url + "?" + options.data;
+      options.data = null;
+    }
+    xhr.open(options.type, options.url);
+    if (options.type === 'post') {
+      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    }
+    xhr.send(options.data);
+    // 接收数据
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState == 4) {
+        if (xhr.status == 200) {
+          var responseData = xhr.responseText;
+          options.success(responseData)
+        }
+      }
+    }
+  }
+</script>
+</html>
