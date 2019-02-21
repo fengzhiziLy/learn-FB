@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+	<script src="../js/jQuery.js"></script>
+	<style type="text/css" media="screen">
+		table {
+			width: 600px;
+			border-collapse: collapse;
+		}
+		td {
+			height: 40px;
+			text-align: center;
+			border: 1px solid #CCC;
+		}
+	</style>
+</head>
+<body>
+	<!-- 
+		前后端分离，客户端跟服务器进行交互的，数据都是通过ajax进行处理
+		后台：
+			1. 请求的地址
+			2. 请求的参数，参数对应的要求说明
+			3. 提交的方式
+			4. 响应的数据格式的说明
+	-->
+	<input type="text" id="cityName"><br>
+	<input type="button" name="" value="查询"><br>
+	<table>
+		<tr>
+			<td>日期</td>
+			<td>星期</td>
+			<td>晚上最低温度</td>
+			<td>白天最高温度</td>
+			<td>风</td>
+		</tr>
+	</table>
+</body>
+<script>
+	$(function () {
+		$("input[type=button]").on("click", function () {
+			var cityName = $("#cityName").val();
+			$.ajax({
+				url: "http://api.jisuapi.com/weather/query",
+				type: "get",
+				data: {
+					appkey: "9457974d392dbfd5",
+					city: cityName
+
+				},
+				dataType: "jsonp",
+				success: function (data) {
+          var weathers = data.result.daily;
+          // console.log(weathers);
+          // 解析json格式的数据
+          var tr = "";
+          for (var i = 0; i < weathers.length; i++) {
+          	tr += "<tr>";
+          	tr += "<td>" + weathers[i].date + "</td>";
+          	tr += "<td>" + weathers[i].week + "</td>";
+          	tr += "<td>" + weathers[i].night.templow + "</td>";
+          	tr += "<td>" + weathers[i].day.temphigh + "</td>";
+          	tr += "<td>" + weathers[i].day.winddirect + "</td>";
+          	tr += "</tr>";
+          }
+          // console.log(tr);
+          $("table").append(tr);
+				}
+			})
+		}) 
+	})
+</script>
+</html>

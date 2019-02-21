@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+	<style type="text/css" media="screen">
+		table {
+			width: 600px;
+			border-collapse: collapse;
+		}
+		td {
+			height: 40px;
+			text-align: center;
+			border: 1px solid #CCC;
+		}
+	</style>
+	<script src="../js/jQuery.js"></script>
+	<script src="../js/template-native.js"></script>
+	<script type="text/template" id="templateId">
+		<% for (var i = 0; i < result.length; i ++) {%>
+			<tr>
+				<td><%= result[i].trainno %></td>
+				<td><%= result[i].type %></td>
+				<td><%= result[i].station %></td>
+				<td><%= result[i].endstation %></td>
+				<td><%= result[i].departuretime %></td>
+				<td><%= result[i].arrivaltime %></td>
+				<td><%= result[i].priceyz %></td>
+				<td><input type="button" value="预定" data-trainno="<%=result[i].trainno%>"></td>
+			</tr>
+		<% } %>
+	</script>
+</head>
+<body>
+	<input type="text" id="start" placeholder="始发站">
+	<input type="text" id="end" placeholder="终点站">
+	<input type="button" name="" value="查询">
+	<table>
+		<tr>
+			<td>车次</td>
+			<td>类型</td>
+			<td>出发站</td>
+			<td>到达站</td>
+			<td>出发时间</td>
+			<td>达到时间</td>
+			<td>距离</td>
+			<td>预定</td>
+		</tr>
+	</table>
+</body>
+<script>
+	$(function () {
+		$("input[type=button]").on("click", function () {
+			var start = $("#start").val();
+			var end = $("#end").val();
+			$.ajax({
+				url: "http://api.jisuapi.com/train/station2s",
+				data: {
+					appkey: "9457974d392dbfd5",
+					start: start,
+					end: end
+				},
+				type: "GET",
+				dataType: "jsonp",
+				success: function (data) {
+          // 渲染到页面
+          var html = template("templateId", data);
+          // 在模板里面解析数据
+          $("table").append(html);
+				}
+			})
+		})
+		$("table").delegate("input[type=button]", "click", function () {
+			console.log(this.dataset.trainno);
+		})
+	})
+</script>
+</html>

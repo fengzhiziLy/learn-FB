@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+	<script src="../js/jQuery.js"></script>
+</head>
+<body>
+	<input type="button" name="" value="jQueryajax">
+</body>
+<script>
+	$(function () {
+		$("input[type=button]").on("click", function () {
+			$.ajax({
+				url: "index.php",
+				type: "get",
+				data: {
+					username: "fengzhizi",
+					sex: "男"
+				},
+				success: function (data) {
+					console.log("请求完成的时候调动")
+          console.log(data);
+				},
+				beforeSend: function () {
+          console.log("请求发送之前调用");
+				},
+				error: function () {
+          console.log("出错调用");
+				},
+				complete: function () {
+          console.log("请求完成了调用");
+				}
+			})
+		})
+	})
+</script>
+</html>

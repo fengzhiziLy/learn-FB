@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+	<script src="../js/ajax.js"></script>
+</head>
+<body>
+	
+</body>
+<script>
+	$.ajax({
+		url: "ajax.php",
+		type: "Post",
+		data: {
+			username: "小白",
+			sex: "男"
+		},
+		success: function (data) {
+			console.log(data);
+		}
+	})
+</script>
+</html>
