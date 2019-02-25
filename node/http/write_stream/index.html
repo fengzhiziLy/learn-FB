@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+	<span id="info"></span>
+	<button id="btn">点击</button>
+	<script>
+		var info = document.querySelector('#info');
+		document.querySelector('#btn').onclick = function () {
+			// 发起ajax请求
+			var xhr = new XMLHttpRequest();
+			xhr.open('get', '/test');
+			xhr.send();
+			// 处理响应
+			xhr.onreadystatechange = function () {
+				console.log(xhr.readyState);
+				// console.log(xhr.responseText);
+				var arr = xhr.responseText.split('^_^');
+				info.innerHTML = arr[arr.length - 2];
+			}
+		}
+	</script>
+</body>
+</html>
