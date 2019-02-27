@@ -7,11 +7,15 @@
   <title>Document</title>
 </head>
 <body>
-  <form action="/add" method="post" enctype="multipart/form-data">
-    网名：<input type="text" name="nickname">
-    头像：<input type="file" name="avater">
-    位置：<input type="text" name="location">
-    <button>添加</button>
-  </form>
+  英雄列表
+  <ul>
+    {{each heros}}
+      <li>
+        {{$value.nickname}}
+        <img src="{{$value.img}}" alt="">
+        距离我{{$value.dist.calculated}}米
+      </li>
+    {{/each}}
+  </ul>
 </body>
 </html>

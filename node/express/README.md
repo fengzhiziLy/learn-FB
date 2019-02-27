@@ -157,3 +157,102 @@ server.use((err, req, res, next) => {
   res.send('<h1>访问的页面出错了</h1>')
 })
 ```
+
+### MongoDB
+
+- 一个数据库对应多个集合
+  - 一个集合对应多个文档对象
+  - 在mongo中不论是db还是集合，都无需去创建它
+  - 直接就当它已经存在，直接Use来使用
+    - use db名称;
+      - 接着会被切换到该db中
+      - `db.要创建的集合名称.save({})`;这样集合就被创建了
+
+- 查询有哪些数据库  
+  - 查询数据库：`show dbs;`
+  - 切换数据库: `use 数据库名;`
+- 查询当前db下有哪些集合
+  - `show collections;`
+- 查询数据：
+  - `db.集合名.find();`  //查询出来的是文档对象 document
+  - `db.test.find();`
+- 添加数据:
+  - `db.集合名.save(对象)` //mongo默认会给我们加入_id作为该文档对象的唯一标识
+  - `db.test.save({contry:'中国',name:'小明',score:77});`
+- 删除数据:
+  - `db.集合名.remove(条件对象);`//条件匹配就会被删除
+  - `db.test.remove({name:'小明'});`
+  - 如果给定一个空对像，会匹配全部
+- 更新数据:
+  - `db.集合名.update({匹配条件对象},{$set:{修改后的对象}});`
+  - `db.test.update({name:'小明'},{$set:{contry:'印度'}});;`
+
+#### 条件查询
+
+```
+练习：
+  查询姓名为小明的学生
+  db.test.find({name:'小明'});;   查询英语成绩大于90分的同学
+  db.test.find({score:{$gt:90}}); //查找成绩大于90分$gt
+  //$lt小于
+  查询数学成绩不等于88的同学
+  db.test.find({score:{$ne:88}});   查询总分大于200分的所有同学
+  db.test.find({score:{$gt:200}});
+```
+
+#### 分页
+
+- `db.test.find().skip(3).limit(3);`
+- db.集合名称.find().跳到3.显示3条
+      + limit 0,3
+
+#### 排序
+
+- `db.test.find().sort({key:排序方式});`
+- `db.test.find().sort({'score':1});` //正数代表升序，负数代表降序
+
+#### 模糊匹配
+
+- `db.test.find({name:{$regex:'小'}});`
+- `db.test.find({name:{$regex:'明'}});`
+
+#### 聚合函数
+
+- 需要求当前集合的记录数：
+- `db.test.find().count();`
+- 求最大值
+  -求整个集合的总成绩
+    + db.集合名.聚合({ 组的划分规则{_id:'1',显示内容:{$sum:'$score'}} })
+  - 求所有人的平均分
+    - `db.test.aggregate({$group:{_id:'1',sumscore:{$avg:'$score'}}});`
+  - 求按国家分组，求所有国家的总分
+    - `db.test.aggregate({$group:{_id:'$contry',sumScore:{$sum:'$score'}}});`
+
+#### 联合查询
+
+```sql
+db.orders.insert([
+  { "_id" : 1, "item" : "almonds", "price" : 12, "quantity" : 2 },
+  { "_id" : 2, "item" : "pecans", "price" : 20, "quantity" : 1 },
+  { "_id" : 3  }
+]);
+db.inventory.insert([
+  { "_id" : 1, "sku" : "almonds", description: "product 1", "instock" : 120 },
+  { "_id" : 2, "sku" : "bread", description: "product 2", "instock" : 80 },
+  { "_id" : 3, "sku" : "cashews", description: "product 3", "instock" : 60 },
+  { "_id" : 4, "sku" : "pecans", description: "product 4", "instock" : 70 },
+  { "_id" : 5, "sku": null, description: "Incomplete" },
+  { "_id" : 6 }
+]);
+db.orders.aggregate([
+  {
+    $lookup:  -- 管道中加入一次查找操作
+      {
+        from: "inventory",  -- 从哪个集合产生关联
+        localField: "item",  -- orders的字段
+        foreignField: "sku", -- inventory的字段
+        as: "inventory_docs" -- 当orders.item === inventory.sku就合起来展示数据
+      }
+  }
+]);
+```
