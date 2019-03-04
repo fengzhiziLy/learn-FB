@@ -80,3 +80,5 @@ app.listen(8888);
   - sign：true   会生成一个关于cookie数据保障不被修改的签名，如果数据改了，但是签名还是之前的状态，就说明数据不安全
   - app.keys 必须要，内部通过该值进行标识或者说计算
   - 操作session   __ctx.session.xxx__
+
+**http协议是有数据解析的，tcp协议只有数据传输**

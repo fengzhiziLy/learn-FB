@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <link rel="stylesheet" href="">
+</head>
+
+<body>
+	当前在线人数:<span id="online"></span>
+	<button id="male">男生组</button> <button id="female">女生组</button>
+	<hr>
+	对谁:  <!-- 选中的option的value会自动赋值给select的value-->
+	<select id="towho" onchange="privateTo = this.value">
+	</select>
+	说:<input type="text" name="" id="privateMsg">
+	<button id="sendPrivateMsg">发起私聊</button>
+	<hr>
+  <div id="box">
+    <ul id="ul">
+    </ul>
+  </div>
+  {{username}}您好，请说话: <input type="text" name="newContent" id="newContent">
+  <button id="btn">发送</button>
+  <script src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript">
+  	var socket = io('http://localhost:8888');
+
+		// 客户端登录  让服务器保存用户信息，并回写相关的数据
+		socket.on('connect', function() {
+		  console.log('连接上了');
+		  // 登录，同步前后端信息
+		  socket.emit('login', {
+		    id: {{ id }}
+		  })
+		});
+  </script>
+  <script src="list_socket.js"></script>
+  <script src="list.js"></script>
+</body>
+
+</html>
