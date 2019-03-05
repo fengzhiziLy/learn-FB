@@ -1,0 +1,256 @@
+### 指令
+
+* 在vue中提供了一些对于页面 + 数据的更为方便的输出,这些操作就叫做指令, 以v-xxx表示
+  * 比如html页面中的属性 `<div v-xxx ></div>`
+
+指令中封装了一些DOM行为,结合属性作为一个暗号,暗号有对应的值,根据不同的值，框架会进行相关DOM操作的绑定
+
+#### vue中常用的v-指令演示
+
+* v-text: 元素的InnerText属性,必须是双标签 跟{{ }}效果是一样的 使用较少
+* v-html: 元素的innerHTML
+* v-if: 判断是否插入这个元素,相当于对元素的销毁和创建,`v-if`如果值为false,会留下一个<!---->作为标记，万一未来`v-if`的值是true了，就在这里插入元素
+* v-else-if
+* v-else
+* v-show 隐藏元素,如果确定要隐藏,会给元素的style加上display:none。是基于css样式的切换
+* v-on:原生JS的事件名='方法名' 该方法名必须在methods中
+
+#### v-if和v-show的区别 (官网解释)
+
+`v-if` 是“真正”的条件渲染，因为它会确保在切换过程中条件块内的事件监听器和子组件适当地被销毁和重建。
+
+`v-if` 也是**惰性的**：如果在初始渲染时条件为假，则什么也不做——直到条件第一次变为真时，才会开始渲染条件块。
+
+相比之下，`v-show` 就简单得多——不管初始条件是什么，元素总是会被渲染，并且只是简单地基于 CSS 进行切换。
+
+一般来说，`v-if` 有更高的切换开销，而 `v-show` 有更高的初始渲染开销。因此，如果需要非常频繁地切换，则使用 `v-show` 较好；如果在运行时条件很少改变，则使用 `v-if` 较好。
+
+#### v-bind使用
+
+* 给元素的属性赋值  <div id="{{变量}}"></div>
+  - 可以给已经存在的属性赋值 input value
+  - data ===> view 单向数据绑定
+  - 也可以给自定义属性赋值 mydata
+
+* 语法 在元素上 `v-bind:属性名="常量||变量名"`
+
+* 简写形式 `:属性名="变量名"`
+
+```html
+  <div v-bind:原属性名="变量"></div>
+  <div :属性名="变量">  
+  </div>
+```
+
+#### v-model 一种语法糖（只能应用在表单控件中，value，UI控件）
+
+* 双向数据流（绑定）
+  * 页面改变影响内存(js)
+  * 内存(js)改变影响页面
+
+![](./img/M.png)
+
+```js
+new Vue({
+	el: "#app",
+	template: `
+		<div>
+			<!-- <input type="text" v-model="msg" /> -->
+			<input type="text" v-bind:value="msg" v-on:input="change" />
+			<p>{{msg}}</p>
+		</div>
+	`,
+	data: function () {
+		return {
+			msg: 'hello双向数据绑定'
+		}
+	},
+	methods: {
+		change: function (e) {
+			this.msg = e.target.value;
+		}
+	}
+})
+```
+
+#### v-bind 和 v-model 的区别
+
+* `input v-model="name"`
+  - 双向数据绑定  页面对于input的value改变，能影响内存中name变量
+  - 内存js改变name的值，会影响页面重新渲染最新值
+* `input :value="name"`
+  - 单向数据绑定 内存改变影响页面改变
+* v-model: 其的改变影响其他  v-bind: 其的改变不影响其他
+* v-bind就是对属性的简单赋值,当内存中值改变，还是会触发重新渲染
+
+#### 关于对象内的this
+
+* vue已经把以前this是window或者事件对象的问题搞定了
+* methods和data本身是在同一个对象中的,所以在该对象中可以通过this.随意取
+* this.xxx 取data中的值, this.xxxMethod调methods中的函数
+
+![组件](./img/zujian.png)
+
+#### 局部组件的使用
+
+​ 渲染组件-父使用子组件
+
+* 1: 创建子组件(对象)
+  - `var Header = { template:'模板', data是一个函数,methods:功能,components:子组件们 } `
+* 2: 在父组件中声明,根属性`components:{ 组件名:组件对象 }`
+* 3: 在父组件要用的地方使用 `<组件名></组件名>`
+    - 在不同框架中,有的不支持大写字母，用的时候
+      + 组件名 MyHeader
+      + 使用 my-header
+
+### 组件深入
+---
+#### 父子组件传值(父传子)
+
+* 1:父用子的时候通过属性Prop传递
+* 2:子要声明props:['属性名'] 来接收
+* 3:收到就是自己的了，随便你用
+    - 在template中 直接用
+    - 在js中 this.属性名 用
+* 总结:父传,子声明,就是子的了
+* 小补充: 常量传递直接用，变量传递加冒号
+
+#### 子传父
+
+- 1.子要绑定原生事件，在原生事件函数中通过this.$emit(‘自定义的事件名’,arg1);触发父组件中子组件自定义的事件名
+- 2.父组件中的子组件`v-bind:自定义事件的名字 = 'fn'`绑定自定义的事件
+- 3.父组件 就可以触发fn的函数 数据就可以从子组件中传过来了
+
+#### 注册全局组件
+
+* 应用场景: 多出使用的公共性功能组件，就可以注册成全局组件,减少冗余代码
+* 全局API `Vue.component('组件名',组件对象);`
+
+#### 附加功能:过滤器&监视改动
+
+* filters
+  * 将数据进行添油加醋的操作
+  * 过滤器分为两种
+    * 1:组件内的过滤器(组件内有效)
+    * 2:全局过滤器(所有组件共享)
+      ##### 局部过滤器的使用
+      * 先注册,后使用
+      * 组件内 `filters:{ 过滤器名:过滤器fn }` 最终fn内通过return产出最终的数据
+      * 使用方式是 `{{ 原有数据 | 过滤器名  }}`
+      * 需求：
+            * 页面input框输入钱数, 另一边显示其前面都加上¥
+        * 过滤器fn:
+            * 声明`function(data,argv1,argv2...){}`
+            * 使用`{{ 数据 | 过滤器名(参数1,参数2) }}`
+**全局过滤器的使用**
+**语法：`Vue.component('过滤器的名字',fn)`**
+**调用：跟局部组件调用方式一样**
+
+* watch 监视单个属性
+
+```js
+watch:{             
+  //监视复杂类型,无法监视的原因是因为监视的是对象的地址 
+  // obj:function(newV,oldV) {
+  // 	console.log(newV,oldV);
+  // },
+  // key是属于data属性的属性名，value是监视后的行为 fn中的参数（新值，旧值）
+  msg:function (newV,oldV) {
+  	console.log(newV,oldV)
+  	if (newV==='alex') {
+  		console.log('sb');
+  	}
+  },
+      // 深度监视 ：object ||array
+  stus:{
+  	deep:true,//深度监视
+  	handler:function (newV,oldV) {
+  		console.log(newV[0].name)
+  	}
+  }
+```
+
+* computed 同时监视多个属性
+
+	默认computed只有getter方法
+
+
+#### 生命周期
+
+##### 定义：
+
+每个`Vue`实例在被创建时都要经过从创建倒挂载再到更新、卸载的一系列过程，同时在这个过程中也会运行一些叫做**生命周期钩子**的函数，可以让我们用自己注册的js方法控制整个大局，在这些事件响应方法中的this直接指向的是vue的实例。
+
+##### 钩子函数的执行时间
+
+beforeCreate
+
+> 在实例初始化之后，数据观测(data observer) 和 event/watcher 事件配置之前被调用。
+
+created
+
+> 实例已经创建完成之后被调用。在这一步，实例已完成以下的配置：数据观测(data observer)，属性和方法的运算， watch/event 事件回调。然而，挂载阶段还没开始，$el 属性目前不可见。
+
+beforeMount
+
+> 在挂载开始之前被调用：相关的 render 函数首次被调用。
+
+mounted
+
+> el 被新创建的 vm.$el 替换，并挂载到实例上去之后调用该钩子。
+
+beforeUpdate
+
+> 数据更新时调用，发生在虚拟 DOM 重新渲染和打补丁之前。
+
+updated
+
+> 由于数据更改导致的虚拟 DOM 重新渲染和打补丁，在这之后会调用该钩子。
+
+ 
+
+beforeDestroy
+
+> 实例销毁之前调用。在这一步，实例仍然完全可用。
+
+destroyed
+
+> Vue 实例销毁后调用。调用后，Vue 实例指示的所有东西都会解绑定，所有的事件监听器会被移除，所有的子实例也会被销毁。 该钩子在服务器端渲染期间不被调用。
+
+ 还有两个特殊的（配合使用keep-alive）：[activated](https://cn.vuejs.org/v2/api/#activated)、[deactivated](https://cn.vuejs.org/v2/api/#deactivated) 
+
+activated
+
+> keep-alive组件被激活时调用
+
+deactivated 
+
+> keep-alive组件被停用时调用
+
+##### 钩子函数中该做的事情
+
+created
+
+> 实例已经创建完成，因为它是最早触发的原因可以进行一些数据，资源的请求。
+
+mounted
+
+> 实例已经挂载完成，可以进行一些DOM操作
+
+beforeUpdate
+
+> 可以在这个钩子中进一步地更改状态，这不会触发附加的重渲染过程。
+
+updated
+
+> 可以执行依赖于 DOM 的操作。然而在大多数情况下，你应该避免在此期间更改状态，因为这可能会导致更新无限循环。
+>
+> 该钩子在服务器端渲染期间不被调用。
+
+destroyed
+
+> 可以执行一些优化操作
+
+keep-alive 
+
+> 在使用vue-router时有时需要使用<keep-alive></keep-alive>来缓存组件状态，这个时候created钩子就不会被重复调用了，如果我们的子组件需要在每次加载的时候进行某些操作，可以使用activated钩子触发。 

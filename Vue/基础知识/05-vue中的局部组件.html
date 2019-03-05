@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app"></div>
+	<script type="text/javascript" src="./node_modules/vue/dist/vue.min.js"></script>
+  <script>
+    // 全局组件
+    Vue.component('Vbtn', {
+      template: `<button>按钮</button>`
+    })
+    var Vheader = {
+      template: `<div class="head">我是头部组件 <Vbtn/></div>`
+    }
+    // 创建局部组件，首先声明局部组件
+    var App = {  // 入口组件
+      template: `
+        <div class="main">
+          <Vheader />
+          <Vbtn/>
+        </div>
+      `,
+      data () {
+        return {
+
+        }
+      },
+      components: {
+        Vheader
+      }
+    }
+    new Vue({
+      el: "#app",
+      template: `<App />`,
+      data () {
+        return {
+
+        }
+      },
+      // 挂载这个组件
+      components: {
+        App
+      }
+    })
+  </script>
+</body>
+</html>
