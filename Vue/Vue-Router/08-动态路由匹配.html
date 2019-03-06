@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+	<div id="app"></div>
+	<script type="text/javascript" src="./vue.min.js"></script>
+	<script type="text/javascript" src="./node_modules/vue-router/dist/vue-router.min.js"></script>
+  <script type="text/javascript">
+		Vue.use(VueRouter); 
+		// 声明组件
+		var ComDesc = {
+			data () {
+				return {
+					msg: ''
+				}
+			},
+			template: `<div>{{msg}}</div>`,
+			created () {
+				this.msg = 'andorid';
+				// console.log('1');
+			},
+			watch: {
+				'$route' (to, from) {
+					console.log(to, from);
+					this.msg = to.params.id;
+				}
+			}
+		}
+    var Timeline = {
+      template: `<div id="timeline">
+        <router-link :to='{name: "comDesc", params: {id: "andorid"}}'>安卓</router-link>
+        <router-link :to='{name: "comDesc", params: {id: "frontend"}}'>前端</router-link>
+        <router-view></router-view>
+      </div>`
+    }
+    var Pins = {
+    	template: `<div>我是沸点</div>`
+    }
+		var router = new VueRouter({
+			routes: [{
+				path: '/timeline',
+        name: 'timeline',
+				component: Timeline,
+        children: [{
+          path: '/timeline/:id',
+          name: 'comDesc',
+          component: ComDesc
+        }]
+			}, {
+				path: '/pins',
+				component: Pins
+			}]
+		});
+    
+		var App = {
+			template: `<div>
+				<router-link to='/timeline'>首页</router-link>
+				<router-link to='/pins'>沸点</router-link>
+				<router-view></router-view>
+			</div>`
+		}
+		new Vue({
+			el: "#app",
+			router: router,
+			template: `<App />`,
+			components: {
+				App
+			}
+		})
+	</script>
+</body>
+</html>
