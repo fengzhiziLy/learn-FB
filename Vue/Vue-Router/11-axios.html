@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+	<div id="app"></div>
+	<script type="text/javascript" src="./vue.min.js"></script>
+	<script type="text/javascript" src="./node_modules/axios/dist/axios.min.js"></script>
+	<script type="text/javascript">
+		var App = {
+			template: `<div>
+				<button @click='sendAjax'>发送</button>
+			</div>`,
+			methods: {
+				sendAjax () {
+					this.$axios.get('http://127.0.0.1:8888/')
+						.then(res => {
+							console.log(res)
+						})
+						.catch (err => {
+							console.log(err)
+						})
+				}
+			}
+		}
+		Vue.prototype.$axios = axios;
+		new Vue({
+			el: "#app",
+			template: `<App/>`,
+			components: {
+				App
+			}
+		})
+	</script>
+</body>
+</html>
