@@ -25,3 +25,4 @@
 - [x] [VueRouter](./Vue/Vue-Router/README.md)
 - [x] [webpack](./Vue/webpackLearn/README.md)
 - [x] [vue-cli](./Vue/vue-cli/README.md)
+- [x] [vue-mixin](./Vue/mixin/README.md)
