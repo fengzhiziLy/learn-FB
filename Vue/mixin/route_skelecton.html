@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <a class="router-link" href="/">Home</a>
+  <a class="router-link" href="/about">About</a>
+  <div id="router-view">
+    <div id="home" style="background-color: red; width: 100%; height: 50px; display: none;">
+      我是home骨架屏
+    </div>
+    <div id="about" style="background-color: yellowgreen; width: 100%; height: 50px; display: none;">
+      我是about骨架屏
+    </div>
+  </div>
+  <script type="text/javascript">
+  // var current = Date.now()
+  // while(Date.now() - current < 2000) {}
+  // 辨别该显示谁的骨架屏
+  var pathname = location.pathname
+  switch (pathname) {
+    case '/':
+      document.getElementById('home').style.display = 'block'
+      break;
+    case '/about':
+      document.getElementById('about').style.display = 'block'
+      break;
+  }
+  </script>
+  <script>
+  var a_s = document.querySelectorAll('a')
+  var routerView = document.getElementById('router-view')
+
+  // 初始行为
+  // 获取URL路径
+  function changeContent(href) {
+    switch (href) {
+      case '/':
+        setTimeout(function() {
+          routerView.innerHTML = `<div>首页</div>`
+        }, 2000)
+        break;
+      case '/about':
+        setTimeout(function() {
+          routerView.innerHTML = `<div>关于me</div>`
+        }, 2000)
+        break;
+    }
+  }
+  changeContent(location.pathname)
+
+  for (var i = a_s.length - 1; i >= 0; i--) {
+    a_s[i].addEventListener('click', function(e) {
+      e.preventDefault()
+      var href = e.target.getAttribute('href')
+      // 变更地址栏
+      history.pushState({}, '', href)
+      // console.log(href)
+      changeContent(href)
+    })
+  }
+  </script>
+</body>
+
+</html>
