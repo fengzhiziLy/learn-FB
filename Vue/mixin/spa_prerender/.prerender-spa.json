@@ -1,0 +1,9 @@
+{
+  "renderRoutes": ["/about"],
+  "useRenderEvent": true,
+  "headless": true,
+  "onlyProduction": true,
+  "customRendererConfig": {
+    "renderAfterDocumentEvent": "my-custom-event"
+  }
+}
