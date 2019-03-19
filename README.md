@@ -26,3 +26,5 @@
 - [x] [webpack](./Vue/webpackLearn/README.md)
 - [x] [vue-cli](./Vue/vue-cli/README.md)
 - [x] [vue-mixin-history](./Vue/mixin/README.md)
+- [x] [vue-directive](./Vue/directive/README.md)
+- [x] [vue-pwa](./Vue/vue_pwa/README.md)
